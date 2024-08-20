@@ -1,21 +1,21 @@
 def call(Map config){
     pipeline{
     agent{
-        label 'devnode'
+        label "$config.label"
     }
     tools{
-        maven 'MAVEN_3.9.9'
+        maven "$config.maven"
     }
     stages{
         stage('SCM'){
             steps{
-                git url: 'https://github.com/devops-pr-ctice/spring-petclinic.git',
-                    branch: 'main'
+                git url: "$config.url",
+                    branch: "$config.branch"
             }
         }
         stage('build'){
             steps{
-                sh 'mvn package'
+                sh "mvn $config.goal"
             }
         }
     }
